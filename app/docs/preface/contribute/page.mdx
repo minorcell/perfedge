@@ -2,47 +2,129 @@ import PageWarp from "@/components/docs/PageWarp";
 
 # 贡献指南
 
-开源地址：[PrefEdge](https://github.com/minorcell/perfedge) , (给点星星鼓励一下吧)。
+开源地址:[PerfEdge](https://github.com/minorcell/perfedge) (如果觉得有帮助,欢迎给项目加星)
 
-本项目欢迎各种形式的贡献，包括但不限于：
+## 我们欢迎什么样的贡献
 
-- **错误修复** ： 修复代码中的错误
-- **功能增强** ： 增加新的功能或改进现有功能
-- **文档完善** ： 完善项目文档，包括 README、MDX 文档等
-- **架构优化** ： 优化项目架构，提高代码的可维护性和可扩展性
-- **Issues / Discussions** ： 报告项目中的问题或建议
+这是一个开放的项目,你可以通过多种方式参与:
 
----
-
-## 贡献流程
-
-- Fork 本项目
-- 创建新的分支
-- 提交代码
-- 提交 Pull Request
-- 等待项目维护者审核，合并代码
+- **错误修复** - 发现并修复代码中的 bug
+- **功能增强** - 添加新功能或改进现有功能
+- **文档完善** - 改进 README、优化 MDX 文档、补充示例说明
+- **架构优化** - 提升代码质量、改善项目结构
+- **问题反馈** - 通过 Issues 报告问题或通过 Discussions 提出建议
 
 ---
 
-## 一些规范
+## 如何提交贡献
 
-### 代码规范
+标准的开源协作流程:
 
-- 使用 ES6+ 语法
-- 使用 NextJs 的最佳实践
+1. **Fork 本项目** - 在 GitHub 上创建项目副本
+2. **创建特性分支** - 基于 `main` 分支创建新分支(如 `feature/add-lazy-loading-demo`)
+3. **提交代码** - 在本地完成开发并提交
+4. **创建 Pull Request** - 提交 PR 并描述你的改动
+5. **代码审核** - 等待项目维护者审核并合并
+
+---
+
+## 代码规范
+
+为了保持代码质量和一致性,请遵循以下规范:
+
+**技术栈要求:**
 - 使用 TypeScript 编写代码
-- 使用 Prettier 格式化代码
+- 使用 ES6+ 语法
+- 遵循 Next.js 15 最佳实践
+- 使用 React 19 hooks 和函数组件
+
+**代码质量工具:**
+- 使用 Prettier 格式化代码(项目已配置自动格式化)
 - 使用 ESLint 检查代码质量
-- 正确的使用 Git 提交规范
+- 提交前会自动运行 Husky 钩子执行检查
 
-> **注意**：在提交代码之前，请确保代码已经通过了所有测试和代码质量检查。
+**Git 提交规范:**
 
-### 文档规范
+遵循 Conventional Commits 规范,提交信息格式为:
 
-- 使用 Markdown 编写文档
-- 使用 MDX 编写文档
-- 如果有本地图片，请尽可能使用 Webp 格式
-- 如果有外部链接，请使用合适的链接格式，标明链接来源
+```
+<type>(<scope>): <description>
+
+[optional body]
+```
+
+常用类型:
+- `feat` - 新功能
+- `fix` - 错误修复
+- `docs` - 文档更新
+- `style` - 代码格式调整(不影响功能)
+- `refactor` - 重构(既不是新功能也不是修复)
+- `perf` - 性能优化
+- `test` - 测试相关
+
+示例:
+```bash
+git commit -m "feat(demo): add web worker optimization demo"
+git commit -m "docs(resource): improve image optimization guide"
+git commit -m "fix(ui): resolve button click event issue"
+```
+
+---
+
+## 文档规范
+
+本项目使用 MDX 编写文档,结合了 Markdown 和 React 组件:
+
+**基本要求:**
+- 使用 Markdown 语法编写内容
+- 可以在 MDX 中导入并使用 React 组件
+- 图片优先使用 WebP 格式以减小体积
+- 外部链接需标明来源,使用合适的链接文本
+
+**写作风格:**
+- 清晰、简洁、逐步递进
+- 使用第二人称(你)保持亲切感
+- 避免冗长的句子和复杂的术语堆砌
+- 每个页面聚焦一个主题,保持单线结构
+- 配合代码示例说明概念
+
+**MDX 组件使用:**
+
+在 MDX 文件中可以导入交互组件:
+
+```mdx
+import DemoComponent from "@/components/docs/topic/DemoComponent";
+
+# 页面标题
+
+文档内容...
+
+<DemoComponent />
+```
+
+常用组件存放位置:
+- `/components/docs/[topic]/` - 主题相关的演示组件
+- `/components/ui/` - 通用 UI 组件
+- `/components/mdx/` - MDX 专用组件
+
+**示例:添加一个新的性能优化文档**
+
+1. 在 `app/docs/[topic]/page.mdx` 创建文档
+2. 在 `/components/docs/[topic]/` 创建交互演示组件
+3. 在 MDX 中导入并使用组件
+4. 确保文档结构清晰,从问题到解决方案逐步展开
+
+---
+
+## 注意事项
+
+提交前请确保:
+- 代码通过了 ESLint 检查(`pnpm lint`)
+- 代码已使用 Prettier 格式化(`pnpm format`)
+- 本地开发服务器运行正常(`pnpm dev`)
+- 生产构建成功(`pnpm build`)
+
+如有疑问,欢迎在 Issues 或 Discussions 中提问。
 
 ---
 

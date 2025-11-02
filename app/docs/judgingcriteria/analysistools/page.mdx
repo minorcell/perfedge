@@ -4,97 +4,136 @@ import Reference from "@/components/docs/ReferenceList";
 
 # 性能分析工具
 
-> 性能优化的第一步是深入了解问题所在。那么，如何高效地进行性能分析呢？今天就来介绍一些主流的分析工具！出于 V8 引擎的强大和对 Web 标准的支持，接下来的示例将基于 Chrome 浏览器展开。
+> 知道了性能指标,下一步就是测量这些指标,找到问题所在。性能分析工具就是为此而生——它们能告诉你页面哪里慢,为什么慢,以及如何改进。
+
+---
+
+## 为什么需要分析工具?
+
+性能指标是抽象的数字,但如何获取这些数字?如何定位具体的性能瓶颈?这就需要专业的分析工具。
+
+好的分析工具能够:
+
+- **自动测量** - 无需手动计算,直接给出性能指标
+- **可视化展示** - 用图表和时间线展示性能数据
+- **定位问题** - 指出哪些资源拖慢了页面
+- **提供建议** - 给出具体的优化方向
+
+接下来我们介绍三个最常用的工具。由于 Chrome 基于 V8 引擎且对 Web 标准支持完善,以下示例将以 Chrome 浏览器为主。
 
 ---
 
 ## Chrome DevTools
 
-Chrome DevTools 是开发者的必备利器！它不仅能帮你调试代码，还能高效分析网页性能，功能点如下：
+Chrome DevTools 是前端开发者的必备工具。它不仅能调试代码,还能全面分析网页性能。
 
 ![Chrome DevTools](/docs/judgingcriteria/devtools.png)
 
-- **元素检查**：轻松查看和修改 HTML 与 CSS，调试样式问题的得力助手。
-- **控制台**：实时捕捉错误日志、警告信息，甚至直接执行 JavaScript 代码。
-- **性能分析**：深挖页面加载与渲染性能，优化时间分布。
-- **网络**：HTTP 请求全透明，轻松查看头信息、响应内容及网络时延。
-- **LightHouse**：一键生成性能与 SEO 报告，覆盖可访问性、最佳实践等核心维度。
-- **内存监控**：定位内存泄漏根源，优化资源占用。
-- ......
+### 主要功能
 
-以上只是冰山一角。接下来，我们重点聊聊 **LightHouse**、**性能分析** 和 **网络**模块的妙用。
+- **元素检查** - 查看和修改 HTML 与 CSS,调试样式问题
+- **控制台** - 捕捉错误日志、警告信息,执行 JavaScript 代码
+- **性能分析** - 记录页面加载和运行过程,分析性能瓶颈
+- **网络** - 查看所有 HTTP 请求的详情,包括时间、大小、响应内容
+- **Lighthouse** - 自动生成性能、SEO、可访问性报告
+- **内存监控** - 检测内存泄漏,优化内存使用
+
+功能远不止这些。接下来我们重点介绍其中三个与性能分析最相关的模块。
 
 ---
 
-## LightHouse
+## Lighthouse
 
-LightHouse 是 DevTools 的自带性能检测插件，堪称站点优化的"一站式"工具。它能全面评估网页的加载效率、SEO 水平及最佳实践得分。
+Lighthouse 是 Chrome DevTools 内置的自动化性能检测工具,由 Google 开发。它能全面评估网页的性能、可访问性、SEO 和最佳实践。
 
-比如本站，跑分如下 👇：
+### 使用场景
 
-![LightHouse](/docs/judgingcriteria/lighthouse_index.png)
+打开 Chrome DevTools,切换到 Lighthouse 面板,点击"分析页面加载",就能得到一份完整的性能报告。
 
-不仅如此，它还能详细解读指标分数，找出背后的优化点，比如：
+比如本站的评分:
+
+![Lighthouse](/docs/judgingcriteria/lighthouse_index.png)
+
+### 报告内容
+
+Lighthouse 不仅给出总分,还会详细列出各项指标的得分和优化建议:
 
 ![lighthouse_performance_detail](/docs/judgingcriteria/lighthouse_performance_detail.png)
 
-- 减少未使用的 JavaScript
-- 避免 DOM 规模过大
-- ......
+常见建议包括:
 
-开发者只需按建议逐条优化，即可让页面跑得又快又稳！  
-**友情提示**：使用 Microsoft Edge 的小伙伴，可以试试它的 Performance Insights，功能类似。
+- 减少未使用的 JavaScript
+- 压缩图片大小
+- 避免 DOM 规模过大
+- 使用现代化的图片格式 (如 WebP)
+
+只需按照建议逐条优化,就能有效提升页面性能。
+
+> 提示: 如果你使用 Microsoft Edge 浏览器,可以试试它的 Performance Insights,功能与 Lighthouse 类似。
 
 ---
 
 ## WebPageTest
 
-[WebPageTest](https://www.webpagetest.org/) 是一个强大的在线性能分析工具，聚焦如下关键点：
+[WebPageTest](https://www.webpagetest.org/) 是一个专业的在线性能测试工具,功能比 Lighthouse 更强大。
 
-- **加载时间**：详解从 DNS 查询到页面渲染的各阶段耗时。
-- **性能指标**：评估 FCP、LCP、Speed Index 等重要指标。
-- **资源利用率**：掌握页面加载过程中各类资源的分布和使用详情。
-- **网络瀑布图**：直观展示 HTTP 请求的时间流图。
+### 核心功能
 
-性能分析示例 👇：
+- **加载时间分析** - 详细展示从 DNS 查询到页面渲染的各阶段耗时
+- **性能指标测量** - 评估 FCP、LCP、Speed Index 等关键指标
+- **资源利用率** - 显示页面加载过程中各类资源的分布和使用情况
+- **网络瀑布图** - 可视化展示所有 HTTP 请求的时间线
+
+### 使用示例
+
+访问 WebPageTest 官网,输入网址并选择测试地点和设备,就能获得详细的性能报告:
 
 ![WebPageTest](/docs/judgingcriteria/webpage_test.png)
 
-想深挖数据？没问题！每个指标都有详细解读：
+点击任意指标,还能查看更详细的解释和优化建议:
 
 ![WebPageTest](/docs/judgingcriteria/webpage_detail.png)
 
+WebPageTest 的优势在于可以模拟不同的网络环境 (如 3G、4G) 和设备类型,帮助你了解用户在各种条件下的真实体验。
+
 ---
 
-## 网络 (NetWork)
+## 网络面板 (Network)
 
-DevTools 的网络模块让你站在"请求链"的最前沿。以下是核心信息点：
+Chrome DevTools 的网络面板能实时监控所有 HTTP 请求,是分析资源加载问题的利器。
 
 ![NetWork](/docs/judgingcriteria/network.png)
 
-- **名称**：请求的 URL。
-- **状态**：HTTP 状态码（如 200 成功，404 资源未找到）。
-- **类型**：资源的类别（HTML、JS、CSS、图片等）。
-- **启动器**：触发请求的页面元素。
-- **大小**：请求与响应的资源体积。
-- **时间**：从发起到完成的耗时分析。
+### 主要信息
 
-点开详细视图，你还能看到更多：
+- **名称** - 请求的 URL
+- **状态** - HTTP 状态码 (如 200 成功, 404 资源未找到)
+- **类型** - 资源类别 (HTML、JS、CSS、图片等)
+- **启动器** - 触发请求的页面元素
+- **大小** - 请求和响应的资源体积
+- **时间** - 从发起到完成的耗时
+
+### 详细视图
+
+点击任意请求,可以查看更多细节:
 
 ![NetWork](/docs/judgingcriteria/network_detail.png)
 
-小科普：虽然现代工具会压缩打包代码，但某些时候你还能通过网络工具窥见源代码的“冰山一角”。  
-PS：开发阶段别忘了关闭调试镜像，否则线上也会暴露开发资源！
+包括请求头、响应头、响应内容、时间分解等。这些信息能帮你定位资源加载慢的具体原因。
+
+### 注意事项
+
+虽然现代构建工具会压缩和混淆代码,但通过网络面板仍然可能看到部分源代码。因此在生产环境中,务必关闭 Source Map,避免暴露开发资源。
 
 ---
 
 ## 测试
 
 <QASelect
-  question="WebPageTest 在哪里使用？"
+  question="WebPageTest 在哪里使用?"
   answer={2}
-  options={["Chrome DevTools", "LightHouse", "以上都不是"]}
-  explanation="WebPageTest 是一个在线的性能测试工具，用于评估页面的加载性能。官网地址：https://www.webpagetest.org/"
+  options={["Chrome DevTools", "Lighthouse", "以上都不是"]}
+  explanation="WebPageTest 是一个在线的性能测试工具,用于评估页面的加载性能。官网地址: https://www.webpagetest.org/"
 />
 
 ---
@@ -105,19 +144,19 @@ PS：开发阶段别忘了关闭调试镜像，否则线上也会暴露开发资
       name: "WebPageTest",
       url: "https://www.webpagetest.org/",
       description:
-        "WebPageTest 是一个在线的性能测试工具，用于评估页面的加载性能。",
+        "WebPageTest 是一个在线的性能测试工具,用于评估页面的加载性能。",
     },
     {
-      name: "LightHouse",
+      name: "Lighthouse",
       url: "https://developers.google.com/web/tools/lighthouse",
       description:
-        "LightHouse 是一个开源的自动化工具，用于改进网络应用的质量。",
+        "Lighthouse 是一个开源的自动化工具,用于改进网络应用的质量。",
     },
     {
       name: "Chrome DevTools",
       url: "https://developer.chrome.com/docs/devtools/",
       description:
-        "Chrome DevTools 是 Chrome 浏览器的开发者工具，用于调试和优化网页。",
+        "Chrome DevTools 是 Chrome 浏览器的开发者工具,用于调试和优化网页。",
     },
   ]}
 />

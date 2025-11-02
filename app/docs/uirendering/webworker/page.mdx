@@ -1,4 +1,5 @@
 import { WebWorkerDemo } from '@/components/docs/uirendering/webworker/WebWorkerDemo'
+import PageWarp from "@/components/docs/PageWarp";
 
 # Web Worker 详解
 
@@ -60,3 +61,7 @@ worker.postMessage(inputData);
    - 通过"测试响应性"按钮，用户可以直观感受到在计算过程中的交互差异
    - 不使用 Worker 时，按钮点击会在计算完成后才一次性响应
    - 使用 Worker 时，按钮可以实时响应点击
+
+---
+
+<PageWarp next="uirendering/asyncprogramming" prev="uirendering/debounce_throttle" />

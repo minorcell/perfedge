@@ -31,6 +31,7 @@ pnpm commitlint       # Run commitlint on staged files
 ## **Architecture Overview**
 
 ### **Technology Stack**
+
 - **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript 5
 - **UI:** React 19, Tailwind CSS 3.4, Motion (Framer Motion)
@@ -41,6 +42,7 @@ pnpm commitlint       # Run commitlint on staged files
 - **Syntax Highlighting:** highlight.js, prism-themes, rehype-highlight
 
 ### **Directory Structure**
+
 ```
 perfedge/
 ├── app/                     # Next.js App Router
@@ -78,6 +80,7 @@ perfedge/
 4. **Custom MDX Components:** Register custom components in `mdx-components.tsx` for use across all MDX files.
 
 ### **Entry Points**
+
 - **Homepage:** `app/page.tsx` - Interactive landing page with animated logo and sound effects
 - **Documentation:** `app/docs/[...]/page.mdx` - Dynamic route rendering MDX files
 - **Layout:** `app/layout.tsx` - Root layout with Tippy.js CSS and metadata
@@ -85,27 +88,31 @@ perfedge/
 ## **Development Workflow**
 
 ### **Adding New Documentation**
+
 1. Create MDX file in appropriate section: `app/docs/[topic]/page.mdx`
 2. Add interactive demos as components in `/components/docs/[topic]/`
 3. Import components directly in MDX:
-   ```mdx
-   <DebounceButton />
-   <ScrollDemo />
-   ```
+    ```mdx
+    <DebounceButton />
+    <ScrollDemo />
+    ```
 
 ### **Styling Guidelines**
+
 - Use Tailwind utility classes throughout
 - Custom colors defined in `tailwind.config.ts` (primary: #1a8194)
 - Typography plugin enabled for MDX content
 - Global styles in `app/globals.css`
 
 ### **Code Quality Standards**
+
 - **ESLint:** next/core-web-vitals + next/typescript
 - **Prettier:** With Tailwind CSS plugin and organize-imports
 - **TypeScript:** Strict mode enabled
 - **Pre-commit Hooks:** Auto-formatting and linting on commit
 
 ## **Configuration Files**
+
 - `next.config.ts` - MDX support, environment variables
 - `tailwind.config.ts` - Custom color palette
 - `tsconfig.json` - Path aliases
@@ -114,6 +121,7 @@ perfedge/
 - `commitlint.config.cjs` - Conventional commits enforcement
 
 ## **Key Information from README**
+
 - Project is under active development with continuous updates
 - Contributions welcome via Pull Requests and Issues
 - Fork → branch → PR workflow

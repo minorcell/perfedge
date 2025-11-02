@@ -1,0 +1,706 @@
+import { CompressionComparisonDemo } from "@/components/docs/resource/codecompression/CompressionComparisonDemo";
+import { TreeShakingDemo } from "@/components/docs/resource/codecompression/TreeShakingDemo";
+import PageWarp from "@/components/docs/PageWarp";
+import QASelect from "@/components/qa/qaSelect";
+import Reference from "@/components/docs/ReferenceList";
+
+# 代码压缩:精简代码体积
+
+> 在 Web 性能优化中,代码体积直接影响页面加载速度。用户每次访问网站,浏览器都需要下载 HTML、CSS 和 JavaScript 文件。如果这些文件体积过大,会显著增加网络传输时间,延缓页面渲染。代码压缩技术通过移除冗余内容、优化代码结构,可以大幅减少文件体积,提升加载性能。
+
+---
+
+## 为什么需要代码压缩?
+
+在开始之前,我们需要理解一个核心问题:为什么要关注代码体积?
+
+现代 Web 应用往往包含大量的 JavaScript 代码、CSS 样式和 HTML 结构。以一个典型的单页应用为例,未经压缩的代码包可能达到数百 KB 甚至数 MB。这些代码需要通过网络传输到用户的浏览器,传输时间直接影响用户体验。
+
+### 网络传输的成本
+
+即使在高速网络环境下,传输一个 500KB 的 JavaScript 文件也需要数秒时间。而在移动网络或弱网环境下,这个时间会更长。更重要的是,文件体积不仅影响下载时间,还会增加浏览器的解析和执行时间。
+
+考虑以下数据:
+
+- **未压缩的代码包**: 500KB
+- **压缩后的代码包**: 150KB
+- **体积减少**: 70%
+
+通过代码压缩,我们可以将文件体积减少 70% 或更多。这意味着:
+
+- 网络传输时间减少 70%
+- 用户流量消耗减少 70%
+- 页面加载速度显著提升
+
+### 实际影响
+
+代码压缩不仅仅是减小文件体积,它直接影响核心性能指标:
+
+- **FCP (First Contentful Paint)**: 首次内容绘制时间更短
+- **LCP (Largest Contentful Paint)**: 最大内容绘制时间更快
+- **TTI (Time to Interactive)**: 页面可交互时间提前
+
+这些指标的改善直接转化为更好的用户体验和更高的业务转化率。
+
+---
+
+## 压缩的原理
+
+代码压缩的核心思想是:移除所有对程序执行没有影响的内容,只保留浏览器运行所需的最少代码。
+
+### 移除空白字符
+
+源代码中的空格、换行符、制表符等空白字符是为了提高可读性而存在的,对代码执行没有影响。压缩工具会移除这些字符:
+
+```javascript
+// 压缩前
+function calculateTotal(price, quantity) {
+  return price * quantity;
+}
+
+// 压缩后
+function calculateTotal(price,quantity){return price*quantity;}
+```
+
+### 移除注释
+
+注释是为开发者提供的说明信息,浏览器执行代码时会忽略它们。压缩过程会移除所有注释:
+
+```javascript
+// 压缩前
+/**
+ * 计算商品总价
+ * @param {number} price - 单价
+ * @param {number} quantity - 数量
+ */
+function calculateTotal(price, quantity) {
+  // 返回总价
+  return price * quantity;
+}
+
+// 压缩后
+function calculateTotal(price,quantity){return price*quantity;}
+```
+
+### 变量名混淆
+
+JavaScript 压缩工具还会将长变量名替换为更短的名称,进一步减小文件体积:
+
+```javascript
+// 压缩前
+function calculateUserOrderTotal(userOrderItems) {
+  let totalAmount = 0;
+  for (let orderItem of userOrderItems) {
+    totalAmount += orderItem.price * orderItem.quantity;
+  }
+  return totalAmount;
+}
+
+// 压缩后
+function a(b){let c=0;for(let d of b)c+=d.price*d.quantity;return c}
+```
+
+### 代码优化
+
+现代压缩工具还会进行一些安全的代码优化:
+
+```javascript
+// 压缩前
+const isProduction = true;
+if (isProduction) {
+  console.log("Production mode");
+} else {
+  console.log("Development mode");
+}
+
+// 压缩后
+console.log("Production mode");
+```
+
+---
+
+## 代码压缩实战演示
+
+下面通过一个交互式演示来直观感受代码压缩的效果:
+
+<CompressionComparisonDemo />
+
+从演示中可以看到,压缩后的代码体积通常能减少 30-50%,在某些情况下甚至能达到 70% 以上的压缩率。
+
+---
+
+## HTML 压缩
+
+HTML 压缩相对简单,主要包括:
+
+- 移除空白字符和换行
+- 移除注释
+- 移除可选的标签闭合
+- 简化属性值
+
+### 使用 html-minifier
+
+在构建过程中,可以使用 `html-minifier-terser` 来压缩 HTML:
+
+```bash
+npm install html-minifier-terser --save-dev
+```
+
+配置示例:
+
+```javascript
+// next.config.ts 或 webpack 配置
+const HTMLMinifierPlugin = require('html-minifier-terser');
+
+module.exports = {
+  // ... 其他配置
+  webpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.plugins.push(
+        new HTMLMinifierPlugin({
+          collapseWhitespace: true,
+          removeComments: true,
+          minifyJS: true,
+          minifyCSS: true,
+        })
+      );
+    }
+    return config;
+  },
+};
+```
+
+---
+
+## CSS 压缩
+
+CSS 压缩不仅可以移除空白和注释,还能进行更深入的优化。
+
+### 使用 CSSNano
+
+CSSNano 是一个强大的 CSS 优化工具,它能:
+
+- 移除空白和注释
+- 简化颜色值 (`#ffffff` → `#fff`)
+- 合并相同的规则
+- 移除重复的样式
+
+安装:
+
+```bash
+npm install cssnano --save-dev
+```
+
+在 PostCSS 配置中使用:
+
+```javascript
+// postcss.config.mjs
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+    ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
+  },
+};
+```
+
+### 使用 PurgeCSS 移除未使用的样式
+
+PurgeCSS 可以分析你的 HTML 和 JavaScript 文件,移除未使用的 CSS 样式:
+
+```bash
+npm install @fullhuman/postcss-purgecss --save-dev
+```
+
+配置示例:
+
+```javascript
+// postcss.config.mjs
+import purgecss from '@fullhuman/postcss-purgecss';
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+    ...(process.env.NODE_ENV === 'production'
+      ? {
+          '@fullhuman/postcss-purgecss': {
+            content: [
+              './app/**/*.{js,jsx,ts,tsx}',
+              './components/**/*.{js,jsx,ts,tsx}',
+            ],
+            defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+          },
+        }
+      : {}),
+  },
+};
+```
+
+这种方式特别适合使用 CSS 框架(如 Bootstrap 或 Tailwind)的项目,可以移除大量未使用的样式,将文件体积从数百 KB 减少到数十 KB。
+
+---
+
+## JavaScript 压缩
+
+JavaScript 压缩是最复杂也是最重要的优化环节。
+
+### 使用 Terser
+
+Terser 是目前最流行的 JavaScript 压缩工具,支持 ES6+ 语法:
+
+```bash
+npm install terser-webpack-plugin --save-dev
+```
+
+在 Next.js 中自定义 Terser 配置:
+
+```javascript
+// next.config.ts
+import TerserPlugin from 'terser-webpack-plugin';
+
+const nextConfig = {
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true, // 移除 console
+                drop_debugger: true, // 移除 debugger
+                pure_funcs: ['console.log'], // 移除指定函数调用
+              },
+              mangle: true, // 变量名混淆
+              format: {
+                comments: false, // 移除注释
+              },
+            },
+          }),
+        ],
+      };
+    }
+    return config;
+  },
+};
+
+export default nextConfig;
+```
+
+### 压缩策略选择
+
+不同的压缩策略适用于不同的场景:
+
+**开发环境:**
+- 不压缩代码
+- 保留完整的变量名和注释
+- 便于调试
+
+**生产环境:**
+- 完全压缩
+- 移除 console 和 debugger
+- 变量名混淆
+
+---
+
+## Tree Shaking:移除未使用的代码
+
+Tree Shaking 是一种更高级的代码优化技术,它不仅压缩代码,还会移除未被使用的代码模块。
+
+### 工作原理
+
+Tree Shaking 依赖 ES Module 的静态结构:
+
+```javascript
+// utils.js - 工具库
+export function formatDate(date) {
+  return date.toLocaleDateString();
+}
+
+export function formatCurrency(amount) {
+  return `$${amount.toFixed(2)}`;
+}
+
+export function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+```
+
+```javascript
+// app.js - 应用代码
+import { formatDate } from './utils.js';
+
+// 只使用了 formatDate
+console.log(formatDate(new Date()));
+```
+
+在这个例子中,虽然 `utils.js` 导出了三个函数,但 `app.js` 只导入并使用了 `formatDate`。通过 Tree Shaking,构建工具会识别出 `formatCurrency` 和 `validateEmail` 没有被使用,在最终打包时将它们移除。
+
+### 有效条件
+
+Tree Shaking 需要满足以下条件才能生效:
+
+1. **使用 ES Module 语法**: `import` 和 `export`,而不是 `require` 和 `module.exports`
+2. **没有副作用**: 模块代码不应该有副作用(如修改全局变量)
+3. **构建工具支持**: Webpack、Rollup、Vite 等现代构建工具默认支持
+
+### 交互式演示
+
+通过下面的演示,你可以直观理解 Tree Shaking 如何工作:
+
+<TreeShakingDemo />
+
+从演示中可以看到,Tree Shaking 能够根据实际导入的内容,精确地移除未使用的代码,避免打包不必要的模块。
+
+### package.json 配置
+
+在 `package.json` 中标记副作用:
+
+```json
+{
+  "name": "my-library",
+  "version": "1.0.0",
+  "sideEffects": false
+}
+```
+
+如果某些文件有副作用,可以明确标记:
+
+```json
+{
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "./src/polyfills.js"
+  ]
+}
+```
+
+---
+
+## 实战:Next.js 项目中的代码压缩
+
+Next.js 默认在生产构建时会自动进行代码压缩和 Tree Shaking。但我们可以进一步优化配置。
+
+### Next.js 15 默认配置
+
+Next.js 15 内置了优秀的压缩配置:
+
+```javascript
+// next.config.ts
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  // Next.js 默认在生产环境启用压缩
+  // 以下是一些可选的优化配置
+
+  compiler: {
+    // 移除 console
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
+  // 启用 SWC 压缩(比 Terser 更快)
+  swcMinify: true,
+};
+
+export default nextConfig;
+```
+
+### 自定义 Webpack 配置
+
+如果需要更精细的控制:
+
+```javascript
+// next.config.ts
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  webpack: (config, { dev, isServer }) => {
+    // 只在生产环境的客户端构建中优化
+    if (!dev && !isServer) {
+      // 启用更激进的 Tree Shaking
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: true,
+      };
+    }
+
+    return config;
+  },
+};
+
+export default nextConfig;
+```
+
+### Vite 配置参考
+
+如果你使用 Vite:
+
+```javascript
+// vite.config.ts
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 手动分包
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
+});
+```
+
+---
+
+## 压缩效果对比
+
+通过实际项目数据,我们可以看到代码压缩带来的显著效果。
+
+### 典型项目对比
+
+以一个中型 React 应用为例:
+
+**压缩前:**
+- JavaScript: 850 KB
+- CSS: 120 KB
+- HTML: 15 KB
+- **总计**: 985 KB
+
+**压缩后:**
+- JavaScript: 280 KB (减少 67%)
+- CSS: 35 KB (减少 71%)
+- HTML: 8 KB (减少 47%)
+- **总计**: 323 KB (减少 67%)
+
+**启用 Tree Shaking 后:**
+- JavaScript: 195 KB (再减少 30%)
+- CSS: 22 KB (再减少 37%)
+- HTML: 8 KB
+- **总计**: 225 KB (总减少 77%)
+
+### 性能指标改善
+
+![代码压缩性能对比](TODO: /public/resource/codecompression/performance-comparison.webp)
+
+基于上述优化,核心性能指标的改善:
+
+- **FCP**: 从 2.8s 降至 1.1s (提升 61%)
+- **LCP**: 从 4.2s 降至 1.8s (提升 57%)
+- **TTI**: 从 5.5s 降至 2.3s (提升 58%)
+- **Bundle Size**: 从 985KB 降至 225KB (减少 77%)
+
+---
+
+## 最佳实践
+
+基于实际经验,以下是代码压缩的最佳实践建议:
+
+### 1. 开发环境 vs 生产环境
+
+**开发环境:**
+- 不要压缩代码
+- 保留 source map
+- 保留 console 和 debugger
+- 快速构建优先
+
+```javascript
+// 开发环境配置
+if (process.env.NODE_ENV === 'development') {
+  config.devtool = 'eval-source-map';
+  config.optimization.minimize = false;
+}
+```
+
+**生产环境:**
+- 完全压缩代码
+- 可选:保留 source map 用于错误追踪
+- 移除 console 和 debugger
+- 体积优化优先
+
+```javascript
+// 生产环境配置
+if (process.env.NODE_ENV === 'production') {
+  config.devtool = 'hidden-source-map';
+  config.optimization.minimize = true;
+}
+```
+
+### 2. 保留 Source Map 用于调试
+
+即使在生产环境,也建议保留 source map,但不要公开暴露:
+
+```javascript
+// next.config.ts
+const nextConfig = {
+  productionBrowserSourceMaps: false, // 不发送给浏览器
+  // 但在构建时生成,上传到错误追踪服务(如 Sentry)
+};
+```
+
+### 3. 渐进式优化
+
+不要一次性启用所有优化选项,应该:
+
+1. 先启用基础压缩
+2. 测量性能改善
+3. 逐步添加 Tree Shaking
+4. 监控是否引入 bug
+
+### 4. 常见陷阱
+
+**陷阱 1: 过度依赖动态导入**
+
+```javascript
+// ❌ 不利于 Tree Shaking
+const utils = require('./utils');
+
+// ✅ 使用 ES Module
+import { formatDate } from './utils';
+```
+
+**陷阱 2: 忽略副作用**
+
+```javascript
+// utils.js
+console.log('utils loaded'); // 副作用!
+
+export function formatDate(date) {
+  return date.toLocaleDateString();
+}
+```
+
+这种代码即使未使用 `formatDate`,也会被包含在打包文件中,因为 `console.log` 是副作用。
+
+**陷阱 3: CSS 中的未使用样式**
+
+```css
+/* 定义了 100 个样式 */
+.button-1 { /* ... */ }
+.button-2 { /* ... */ }
+/* ... */
+.button-100 { /* ... */ }
+
+/* 但只使用了 .button-1 */
+```
+
+使用 PurgeCSS 可以自动移除未使用的样式。
+
+### 5. 监控和测量
+
+使用工具持续监控代码体积:
+
+```bash
+# 分析打包体积
+npm install -g webpack-bundle-analyzer
+
+# 在构建后分析
+npx webpack-bundle-analyzer .next/analyze/client.json
+```
+
+或使用 Next.js 内置分析:
+
+```javascript
+// next.config.ts
+const nextConfig = {
+  // 启用打包分析
+  ...(process.env.ANALYZE === 'true' && {
+    webpack: (config) => {
+      config.plugins.push(
+        new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)()
+      );
+      return config;
+    },
+  }),
+};
+```
+
+运行:
+
+```bash
+ANALYZE=true npm run build
+```
+
+---
+
+## 小测
+
+<QASelect
+  question="以下哪种做法最有利于 Tree Shaking?"
+  options={[
+    "使用 require() 导入模块",
+    "使用 ES Module 的 import/export",
+    "将所有代码写在一个文件中",
+    "使用全局变量共享代码"
+  ]}
+  answer={1}
+  explanation="Tree Shaking 依赖 ES Module 的静态结构分析。只有使用 import/export 语法,构建工具才能准确识别哪些代码被使用、哪些代码未被使用,从而安全地移除未使用的代码。"
+/>
+
+---
+
+## 总结
+
+代码压缩是 Web 性能优化的基础环节,通过合理使用压缩工具和 Tree Shaking 技术,可以:
+
+- **显著减小文件体积**: 通常能减少 50-70% 的代码体积
+- **加快页面加载速度**: 减少网络传输时间和浏览器解析时间
+- **降低流量消耗**: 对移动用户特别友好
+- **改善核心性能指标**: FCP、LCP、TTI 等指标全面提升
+
+**关键要点:**
+
+1. 压缩移除冗余内容,Tree Shaking 移除未使用的代码
+2. 使用 ES Module 语法以支持 Tree Shaking
+3. 区分开发环境和生产环境配置
+4. 使用现代工具链(Next.js、Vite)默认配置已很优秀
+5. 持续监控和测量优化效果
+
+**延伸阅读:**
+
+- [代码分割](./codepacking) - 学习如何进一步优化代码加载策略
+- [Webpack 官方文档](https://webpack.js.org/guides/tree-shaking/)
+- [Next.js 编译器选项](https://nextjs.org/docs/architecture/nextjs-compiler)
+
+---
+
+<Reference
+  references={[
+    {
+      name: "Webpack Tree Shaking",
+      url: "https://webpack.js.org/guides/tree-shaking/",
+      description: "Webpack 官方文档关于 Tree Shaking 的详细介绍,包括原理和最佳实践。"
+    },
+    {
+      name: "Terser 官方文档",
+      url: "https://terser.org/docs/api-reference",
+      description: "Terser 是目前最流行的 JavaScript 压缩工具,支持 ES6+ 语法。"
+    },
+    {
+      name: "Next.js 编译器",
+      url: "https://nextjs.org/docs/architecture/nextjs-compiler",
+      description: "Next.js 内置的 SWC 编译器和优化选项说明。"
+    },
+    {
+      name: "Web.dev - 减少 JavaScript 负载",
+      url: "https://web.dev/articles/reduce-javascript-payloads-with-code-splitting",
+      description: "Google Web.dev 关于减少 JavaScript 体积的最佳实践指南。"
+    }
+  ]}
+/>
+
+---
+
+<PageWarp next="resource/codepacking" prev="resource/webfont" />

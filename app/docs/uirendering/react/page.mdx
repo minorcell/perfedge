@@ -14,7 +14,43 @@ Memo是一个**高阶组件**，类似于PureComponent（后面补充），它�
 
 新的函数组件会对传入的props进行**浅比较**，如果props没有发生变化，则不会重新渲染组件，反之重新渲染组件。
 
-（后续补充例子）
+#### 基础示例
+
+```tsx
+import React, { useState, memo } from 'react';
+
+// 未使用memo的子组件
+const ChildWithoutMemo = ({ name, count }: { name: string; count: number }) => {
+  console.log('ChildWithoutMemo渲染了');
+  return <div>{name}: {count}</div>;
+};
+
+// 使用memo的子组件
+const ChildWithMemo = memo(({ name, count }: { name: string; count: number }) => {
+  console.log('ChildWithMemo渲染了');
+  return <div>{name}: {count}</div>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [unrelatedState, setUnrelatedState] = useState(0);
+
+  return (
+    <div>
+      <ChildWithoutMemo name="未优化" count={count} />
+      <ChildWithMemo name="已优化" count={count} />
+
+      <button onClick={() => setCount(count + 1)}>增加count</button>
+      {/* 点击此按钮时,ChildWithoutMemo会重新渲染,但ChildWithMemo不会 */}
+      <button onClick={() => setUnrelatedState(unrelatedState + 1)}>
+        更新无关状态
+      </button>
+    </div>
+  );
+}
+```
+
+在这个例子中,当点击"更新无关状态"按钮时,父组件重新渲染,但由于传给`ChildWithMemo`的props没有变化,它不会重新渲染。而`ChildWithoutMemo`每次都会重新渲染。
 
 memo的源码其实就是返回一个具有类似于PureComponent的浅比较的函数组件。
 
@@ -38,7 +74,62 @@ useCallback接受两个参数：一个函数和一个依赖数组。当依赖数
 
 在实际开发中，我们通常会将memo和useCallback结合使用，以减少不必要的组件渲染和函数创建，从而提高性能
 
-（后续补充例子）
+#### 示例：memo + useCallback 组合优化
+
+```tsx
+import React, { useState, memo, useCallback } from 'react';
+
+// 子组件：接收一个函数作为prop
+const ExpensiveList = memo(({
+  items,
+  onItemClick
+}: {
+  items: string[];
+  onItemClick: (item: string) => void
+}) => {
+  console.log('ExpensiveList渲染了');
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item} onClick={() => onItemClick(item)}>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+});
+
+function TodoApp() {
+  const [items] = useState(['任务1', '任务2', '任务3']);
+  const [count, setCount] = useState(0);
+
+  // 错误做法：每次渲染都创建新函数，导致memo失效
+  // const handleClick = (item: string) => {
+  //   console.log('点击了:', item);
+  // };
+
+  // 正确做法：使用useCallback缓存函数
+  const handleClick = useCallback((item: string) => {
+    console.log('点击了:', item);
+  }, []); // 空依赖数组，函数永远不会改变
+
+  return (
+    <div>
+      <ExpensiveList items={items} onItemClick={handleClick} />
+
+      {/* 更新count不会导致ExpensiveList重新渲染 */}
+      <button onClick={() => setCount(count + 1)}>
+        计数: {count}
+      </button>
+    </div>
+  );
+}
+```
+
+在这个例子中：
+- 如果不使用`useCallback`，每次`TodoApp`渲染时都会创建新的`handleClick`函数
+- 即使使用了`memo`，由于函数引用变化，`ExpensiveList`仍会重新渲染
+- 使用`useCallback`后，函数引用保持不变，`memo`才能真正发挥作用
 
 ### 3.useMemo
 

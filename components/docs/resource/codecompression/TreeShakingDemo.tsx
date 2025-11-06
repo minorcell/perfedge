@@ -155,7 +155,7 @@ export const TreeShakingDemo = () => {
             {!showBundle ? (
               <div className="flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white">
                 <p className="text-sm text-gray-500">
-                  选择函数后点击"打包构建"查看结果
+                  选择函数后点击&quot;打包构建&quot;查看结果
                 </p>
               </div>
             ) : (

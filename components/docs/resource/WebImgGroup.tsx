@@ -43,9 +43,11 @@ const WebImgGroup: React.FC = () => {
           key={index + image.alt}
           className="card border border-gray-200 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow duration-300"
         >
-          <img
+          <Image
             src={image.src}
             alt={image.alt}
+            width={500}
+            height={300}
             className="rounded-lg w-full h-auto object-cover mb-4"
           />
           <p className="text-center text-sm font-medium">

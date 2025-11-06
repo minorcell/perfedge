@@ -1,4 +1,5 @@
 import { getContributors } from "@/lib/api/Developer";
+import Image from "next/image";
 
 interface Contributor {
   login: string;
@@ -17,10 +18,12 @@ export default async function Contributors() {
       {contributors?.length > 0 ? (
         contributors.map((item) => (
           <div key={item.login} className="flex items-center gap-2">
-            <img
+            <Image
               src={item.avatar_url}
               alt={item.login}
-              className="w-8 h-8 rounded-full"
+              width={32}
+              height={32}
+              className="rounded-full"
             />
             <a
               href={item.html_url}

@@ -1,67 +1,67 @@
 {
-    "name": "perfedge",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
-        "prepare": "husky && husky install",
-        "format": "prettier --write .",
-        "lint-staged": "lint-staged",
-        "commitlint": "commitlint --config commitlint.config.cjs -e -V"
-    },
-    "lint-staged": {
-        "**/*.{js,jsx,ts,tsx,vue}": [
-            "eslint --fix",
-            "prettier --write",
-            "git add"
-        ],
-        "*.{scss,less,styl,html}": [
-            "prettier --write"
-        ]
-    },
-    "description": "PerfEdge | Web 性能优化知识库",
-    "dependencies": {
-        "@mdx-js/loader": "^3.1.0",
-        "@mdx-js/react": "^3.1.0",
-        "@next/mdx": "^15.1.0",
-        "@tailwindcss/typography": "^0.5.15",
-        "@tippyjs/react": "^4.2.6",
-        "@types/mdx": "^2.0.13",
-        "highlight.js": "^11.10.0",
-        "lucide-react": "^0.468.0",
-        "motion": "^12.0.0-alpha.2",
-        "next": "15.0.4",
-        "prism-themes": "^1.9.0",
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "rehype-highlight": "^7.0.1",
-        "rehype-prism-plus": "^2.0.0",
-        "remark-gfm": "^4.0.0"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^19.6.1",
-        "@commitlint/config-conventional": "^19.6.0",
-        "@types/eslint-plugin-prettier": "^3.1.3",
-        "@types/lint-staged": "^13.3.0",
-        "@types/node": "^20",
-        "@types/prettier": "^3.0.0",
-        "@types/react": "^19",
-        "@types/react-dom": "^19",
-        "eslint": "^8",
-        "eslint-config-next": "15.0.4",
-        "eslint-plugin-prettier": "^5.2.1",
-        "husky": "^8.0.0",
-        "lint-staged": "^15.3.0",
-        "postcss": "^8",
-        "prettier": "^3.4.2",
-        "prettier-plugin-organize-imports": "^4.1.0",
-        "prettier-plugin-tailwindcss": "^0.6.9",
-        "tailwindcss": "^3.4.1",
-        "tailwindcss-textshadow": "^2.1.3",
-        "typescript": "^5",
-        "worker-loader": "^3.0.8"
-    }
+  "name": "perfedge",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prepare": "husky && husky install",
+    "format": "prettier --write .",
+    "lint-staged": "lint-staged",
+    "commitlint": "commitlint --config commitlint.config.cjs -e -V"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,vue}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{scss,less,styl,html}": [
+      "prettier --write"
+    ]
+  },
+  "description": "PerfEdge | Web 性能优化知识库",
+  "dependencies": {
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.1.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tippyjs/react": "^4.2.6",
+    "@types/mdx": "^2.0.13",
+    "highlight.js": "^11.10.0",
+    "lucide-react": "^0.468.0",
+    "motion": "^12.0.0-alpha.2",
+    "next": "15.0.5",
+    "prism-themes": "^1.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rehype-highlight": "^7.0.1",
+    "rehype-prism-plus": "^2.0.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@types/eslint-plugin-prettier": "^3.1.3",
+    "@types/lint-staged": "^13.3.0",
+    "@types/node": "^20",
+    "@types/prettier": "^3.0.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.4",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.3.0",
+    "postcss": "^8",
+    "prettier": "^3.4.2",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-textshadow": "^2.1.3",
+    "typescript": "^5",
+    "worker-loader": "^3.0.8"
+  }
 }

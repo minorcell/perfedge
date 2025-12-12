@@ -33,7 +33,7 @@
     "highlight.js": "^11.10.0",
     "lucide-react": "^0.468.0",
     "motion": "^12.0.0-alpha.2",
-    "next": "15.0.5",
+    "next": "15.4.9",
     "prism-themes": "^1.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

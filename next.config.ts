@@ -6,6 +6,14 @@ import { env } from 'process';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'avatars.githubusercontent.com',
+            },
+        ],
+    },
     env: {
         GITHUB_TOKEN: env.GITHUB_TOKEN,
     },

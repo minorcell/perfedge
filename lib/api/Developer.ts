@@ -20,8 +20,8 @@ export const getContributors = async () => {
 
         const data = await response.json();
         return data;
-    } catch {
-        console.warn('Failed to fetch contributors');
+    } catch (error) {
+        console.warn('Failed to fetch contributors', error);
         return [];
     }
 };
